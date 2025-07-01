@@ -4,5 +4,3 @@
 
 [node name="Global" type="Node"]
 script = ExtResource("1_4mbhf")
-grid_width = 1
-grid_height = 1

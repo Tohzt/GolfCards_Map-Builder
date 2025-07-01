@@ -1,8 +1,9 @@
 class_name GlobalClass extends Node
 
 @export var cell_size: int = 64
-@export var grid_width: int = 20
-@export var grid_height: int = 20
+@export var grid_width: int = 10
+@export var grid_height: int = 10
+@export var custom_save_path: String = ""  # Empty means use downloads folder
 
 enum CellType {
 	EMPTY = -1,
@@ -24,3 +25,20 @@ static func get_cell_string(value: int) -> String:
 		CellType.S: return "S"
 		CellType.TEE: return "Tee"
 		_: return str(value)  # Fallback for unknown values
+
+static func get_cell_value_from_string(string_value: String) -> int:
+	match string_value:
+		"": return CellType.EMPTY
+		"Base": return CellType.BASE
+		"G": return CellType.G
+		"R": return CellType.R
+		"F": return CellType.F
+		"S": return CellType.S
+		"Tee": return CellType.TEE
+		_: return CellType.EMPTY  # Fallback for unknown strings
+
+func get_save_directory() -> String:
+	if custom_save_path.is_empty():
+		return OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS)
+	else:
+		return custom_save_path

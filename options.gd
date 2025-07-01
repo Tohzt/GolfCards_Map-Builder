@@ -1,4 +1,4 @@
-extends CanvasLayer
+class_name OptionsClass extends CanvasLayer
 # This script is for any of the input/button functionality for this canvaslayer
 @onready var input_grid_width = $"MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/Grid Width/Input gridWidth"
 @onready var input_grid_height = $"MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/Grid Height/Input gridHeight"
@@ -6,6 +6,7 @@ extends CanvasLayer
 @onready var margin_container = $"MarginContainer"
 @onready var nine_patch_rect = $"MarginContainer/NinePatchRect"
 @onready var vbox_container = $"MarginContainer/NinePatchRect/MarginContainer/VBoxContainer"
+@onready var map_name = $"MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/Map Name/Map Name"
 
 var is_collapsed: bool = false
 
@@ -16,7 +17,7 @@ func _ready():
 	
 	# Find and connect the reset/resize button by its text
 	for child in vbox_container.get_children():
-		if child is Button and child.text == "Reset/Resize Grid":
+		if child is Button and child.text == "Resize Grid":
 			child.pressed.connect(_on_reset_resize_button_pressed)
 			break
 
@@ -42,7 +43,6 @@ func _on_toggle_input_pressed():
 		toggle_input.text = "[ < ]"
 
 func _on_reset_resize_button_pressed():
-	print("Huh?")
 	# Update Global values with input values
 	Global.grid_width = int(input_grid_width.value)
 	Global.grid_height = int(input_grid_height.value)
