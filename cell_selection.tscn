@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://j3ohufpj6nim"]
+
+[ext_resource type="Script" uid="uid://c8xhuubyx2dn0" path="res://cell_selection.gd" id="1_aioru"]
+
+[node name="Cell Selection" type="MarginContainer" groups=["Cell Selection"]]
+size_flags_vertical = 3
+script = ExtResource("1_aioru")

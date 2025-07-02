@@ -23,19 +23,21 @@ func get_cell_position() -> Vector2i:
 	var grid_y = int(position.y / Global.cell_size)
 	return Vector2i(grid_x, grid_y)
 
+func get_cell_color() -> Color:
+	return Global.get_cell_color(cell_value)
+
 func _input(event: InputEvent) -> void:
 	# Only handle clicks if we're hovering over this cell
 	if cell_hovered:
+		# Left click with selected cell type
 		if event.is_action_pressed("mouse left"):
-			cell_value += 1
-			# Wrap around to -1 if we exceed the maximum enum value
-			if cell_value > Global.CellType.values().max():
-				cell_value = -1
+			var cell_selection = get_tree().get_first_node_in_group("Cell Selection")
+			if cell_selection and cell_selection.has_method("get_selected_cell_type"):
+				cell_value = cell_selection.get_selected_cell_type()
+		
+		# Right click sets to empty
 		elif event.is_action_pressed("mouse right"):
-			cell_value -= 1
-			# Wrap around to maximum if we go below -1
-			if cell_value < -1:
-				cell_value = Global.CellType.values().max()
+			cell_value = Global.cell_types[0].value  # EMPTY value
 
 func _on_mouse_entered() -> void:
 	cell_hovered = true

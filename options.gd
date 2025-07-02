@@ -51,3 +51,9 @@ func _on_reset_resize_button_pressed():
 	var grid_display = get_parent().get_node("../Grid Display")
 	if grid_display:
 		grid_display.rebuild_grid()
+
+func update_grid_inputs():
+	# Update input values to match current Global settings
+	input_grid_width.value = Global.grid_width
+	input_grid_height.value = Global.grid_height
+	print("Updated grid inputs - Width: ", input_grid_width.value, ", Height: ", input_grid_height.value)

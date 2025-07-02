@@ -1,0 +1,1 @@
+["G","G","G","R","F","Empty","Base","S","Tee","Empty"]

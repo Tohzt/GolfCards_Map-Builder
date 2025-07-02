@@ -61,7 +61,7 @@ func _on_directory_dialog_canceled():
 func update_button_text():
 	var current_path = Global.custom_save_path
 	if current_path.is_empty():
-		text = "[Downloads]"
+		text = "[Path: Downloads]"
 	else:
 		# Show just the directory name, not the full path
 		var dir_name = current_path.get_file()
@@ -73,4 +73,4 @@ func update_button_text():
 			else:
 				dir_name = "Custom"
 		
-		text = "[" + dir_name + "]"
+		text = "[ Path: " + dir_name + "]"

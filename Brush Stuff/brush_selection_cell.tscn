@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=3 uid="uid://bhq338fku64bb"]
+
+[ext_resource type="Script" uid="uid://b2gahyjuaupo5" path="res://Brush Stuff/brush_selection_cell.gd" id="1_anavd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kfab6"]
+bg_color = Color(1, 1, 1, 1)
+
+[node name="BrushSelection_Cell" type="Control" groups=["Brush Selection"]]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_anavd")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 118.0
+offset_bottom = 32.0
+theme_override_constants/separation = 7
+
+[node name="Brush Cell Name" type="LineEdit" parent="HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Cell Name"
+
+[node name="Select Brush Cell" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/focus = SubResource("StyleBoxFlat_kfab6")
+theme_override_styles/hover = SubResource("StyleBoxFlat_kfab6")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_kfab6")
+theme_override_styles/normal = SubResource("StyleBoxFlat_kfab6")
+
+[connection signal="pressed" from="HBoxContainer/Select Brush Cell" to="." method="_on_select_brush_cell_pressed"]

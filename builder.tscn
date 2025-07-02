@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://btfjx3pvjr8kd"]
+[gd_scene load_steps=9 format=3 uid="uid://btfjx3pvjr8kd"]
 
 [ext_resource type="Script" uid="uid://dw1qsds8kficj" path="res://builder.gd" id="1_l5ofj"]
 [ext_resource type="Script" uid="uid://dqoujmrd7aeu2" path="res://grid_display.gd" id="2_clihi"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://103ksthofb57" path="res://save_map_button.gd" id="4_h00wr"]
 [ext_resource type="Script" uid="uid://hkayax1qstd4" path="res://upload_map_button.gd" id="4_ucbhk"]
 [ext_resource type="Script" uid="uid://btq4kb6gcpm1a" path="res://upload_path.gd" id="5_gtodl"]
+[ext_resource type="PackedScene" uid="uid://j3ohufpj6nim" path="res://cell_selection.tscn" id="7_3uvuy"]
 
 [node name="Builder" type="Node2D"]
 script = ExtResource("1_l5ofj")
@@ -100,30 +101,33 @@ alignment = 1
 layout_mode = 2
 text = "Resize Grid"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 4
-
-[node name="Upload Map Button" type="Button" parent="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="Upload Map Button" type="Button" parent="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Upload Map"
 script = ExtResource("4_ucbhk")
-
-[node name="Upload Path" type="Button" parent="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-text = "[Path]"
-script = ExtResource("5_gtodl")
 
 [node name="Save Map Button" type="Button" parent="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Save Map"
 script = ExtResource("4_h00wr")
 
+[node name="Upload Path" type="Button" parent="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "[Path]"
+script = ExtResource("5_gtodl")
+
+[node name="Cell Selection" parent="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer" instance=ExtResource("7_3uvuy")]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
 [node name="Grid Display" type="Node2D" parent="." groups=["Grid Display"]]
 script = ExtResource("2_clihi")
 
 [connection signal="pressed" from="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Toggle Input" to="Camera2D/Options" method="_on_toggle_input_pressed"]
-[connection signal="pressed" from="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer2/Upload Map Button" to="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer2/Upload Map Button" method="_on_pressed"]
-[connection signal="pressed" from="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer2/Upload Path" to="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer2/Upload Path" method="_on_pressed"]
+[connection signal="pressed" from="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/Upload Map Button" to="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/Upload Map Button" method="_on_pressed"]
 [connection signal="pressed" from="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/Save Map Button" to="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/Save Map Button" method="_on_pressed"]
+[connection signal="pressed" from="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/Upload Path" to="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/Upload Path" method="_on_pressed"]

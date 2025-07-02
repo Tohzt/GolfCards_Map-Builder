@@ -25,8 +25,11 @@ func _on_file_selected(path: String):
 	print("Selected file: ", path)
 	load_map_from_file(path)
 	
-	# Update the map name input with the filename (without extension)
+	# Update the map name input with the filename (without extension and grid size)
 	var filename = path.get_file().get_basename()
+	# Remove grid size part from filename (e.g., "GCM (4x4)" -> "GCM")
+	var clean_filename = extract_base_name_from_filename(filename)
+	print("Original filename: ", filename, " -> Clean filename: ", clean_filename)
 	
 	# Find and update the map name input
 	var map_name_input = get_tree().get_first_node_in_group("Map Name")
@@ -38,8 +41,8 @@ func _on_file_selected(path: String):
 				break
 	
 	if map_name_input:
-		map_name_input.text = filename
-		print("Updated map name to: ", filename)
+		map_name_input.text = clean_filename
+		print("Updated map name to: ", clean_filename)
 	else:
 		print("Could not find map name input")
 	
@@ -71,6 +74,10 @@ func load_map_from_file(file_path: String):
 	# Resize grid to match the file's grid size
 	Global.grid_width = grid_size.x
 	Global.grid_height = grid_size.y
+	print("Updated Global grid size to: ", Vector2i(Global.grid_width, Global.grid_height))
+	
+	# Update the UI input elements to reflect the new grid size
+	update_grid_size_inputs()
 	
 	# Get reference to grid display and rebuild
 	var grid_display = get_tree().get_first_node_in_group("Grid Display")
@@ -124,6 +131,20 @@ func extract_grid_size_from_filename(filename: String) -> Vector2i:
 	
 	return Vector2i.ZERO
 
+func extract_base_name_from_filename(filename: String) -> String:
+	# Remove grid size part from filename (e.g., "GCM (4x4)" -> "GCM")
+	# Look for the pattern and remove everything from the opening parenthesis onwards
+	var regex = RegEx.new()
+	regex.compile("\\s*\\(.*\\)")
+	var result = regex.search(filename)
+	
+	if result:
+		# Return the part before the grid size
+		return filename.substr(0, result.get_start())
+	else:
+		# If no grid size found, return the original filename
+		return filename
+
 func apply_map_data_to_grid(grid_display, map_data: Array):
 	# Get all cells in the grid
 	var cells = []
@@ -158,5 +179,15 @@ func apply_map_data_to_grid(grid_display, map_data: Array):
 		var cell_value = Global.get_cell_value_from_string(string_value)
 		cells[i].cell_value = cell_value
 	
-	print("Map loaded successfully! Applied ", map_data.size(), " values to ", cells.size(), " cells") 
+	print("Map loaded successfully! Applied ", map_data.size(), " values to ", cells.size(), " cells")
+
+func update_grid_size_inputs():
+	# Find the options node and update the input values
+	var options = get_tree().get_first_node_in_group("Options")
+	
+	if options and options.has_method("update_grid_inputs"):
+		options.update_grid_inputs()
+		print("Updated grid size inputs in options UI")
+	else:
+		print("Could not find options UI to update grid inputs") 
 	
