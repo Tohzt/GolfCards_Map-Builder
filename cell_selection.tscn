@@ -1,7 +1,53 @@
-[gd_scene load_steps=2 format=3 uid="uid://j3ohufpj6nim"]
+[gd_scene load_steps=6 format=3 uid="uid://j3ohufpj6nim"]
 
 [ext_resource type="Script" uid="uid://c8xhuubyx2dn0" path="res://cell_selection.gd" id="1_aioru"]
 
-[node name="Cell Selection" type="MarginContainer" groups=["Cell Selection"]]
+[sub_resource type="Gradient" id="Gradient_aioru"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_l40kp"]
+gradient = SubResource("Gradient_aioru")
+
+[sub_resource type="Gradient" id="Gradient_uj01p"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ai86t"]
+gradient = SubResource("Gradient_uj01p")
+
+[node name="Cell Selection" type="PanelContainer" groups=["Cell Selection"]]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_aioru")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+texture = SubResource("GradientTexture1D_l40kp")
+expand_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer"]
+layout_mode = 2
+texture = SubResource("GradientTexture1D_ai86t")
+expand_mode = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/TextureRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/TextureRect/ScrollContainer"]
+layout_mode = 2

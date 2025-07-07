@@ -56,4 +56,3 @@ func update_grid_inputs():
 	# Update input values to match current Global settings
 	input_grid_width.value = Global.grid_width
 	input_grid_height.value = Global.grid_height
-	print("Updated grid inputs - Width: ", input_grid_width.value, ", Height: ", input_grid_height.value)

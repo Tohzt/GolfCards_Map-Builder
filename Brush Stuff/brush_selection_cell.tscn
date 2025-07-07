@@ -5,15 +5,11 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kfab6"]
 bg_color = Color(1, 1, 1, 1)
 
-[node name="BrushSelection_Cell" type="Control" groups=["Brush Selection"]]
-layout_mode = 3
-anchors_preset = 0
+[node name="BrushSelection_Cell" type="PanelContainer" groups=["Brush Selection"]]
 script = ExtResource("1_anavd")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 0
-offset_right = 118.0
-offset_bottom = 32.0
+layout_mode = 2
 theme_override_constants/separation = 7
 
 [node name="Brush Cell Name" type="LineEdit" parent="HBoxContainer"]

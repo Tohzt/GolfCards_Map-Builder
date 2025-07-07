@@ -17,12 +17,28 @@ func _ready() -> void:
 	camera.zoom = Vector2.ONE
 
 func _input(event: InputEvent) -> void:
+	# Prevent zoom if mouse is over the Options UI (no-scroll zone)
+	var mouse_over_ui := false
+	var mouse_focus = get_viewport().gui_get_hovered_control()
+	if mouse_focus:
+		# Check if the focused UI is in the 'Options' group or a child of it
+		if mouse_focus.is_in_group("Options"):
+			mouse_over_ui = true
+		else:
+			# Check parent chain for group
+			var node = mouse_focus.get_parent()
+			while node:
+				if node.is_in_group("Options"):
+					mouse_over_ui = true
+					break
+				node = node.get_parent()
+
 	# Handle zoom in
-	if event.is_action_pressed("zoom in"):
+	if event.is_action_pressed("zoom in") and not mouse_over_ui:
 		zoom_camera(1.0)
 	
 	# Handle zoom out
-	if event.is_action_pressed("zoom out"):
+	if event.is_action_pressed("zoom out") and not mouse_over_ui:
 		zoom_camera(-1.0)
 	
 	# Handle panning start
@@ -35,7 +51,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_released("zoom drag"):
 		is_panning = false
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	# Handle panning movement
 	if is_panning:
 		var current_mouse_pos = get_global_mouse_position()

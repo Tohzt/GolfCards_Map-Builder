@@ -1,15 +1,8 @@
 extends Button
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	# Update button text to show current save path
 	update_button_text()
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
 
 
 func _on_pressed():
@@ -35,7 +28,6 @@ func open_directory_dialog():
 
 
 func _on_directory_selected(path: String):
-	print("Selected directory: ", path)
 	
 	# Update Global custom save path
 	Global.custom_save_path = path
@@ -50,8 +42,6 @@ func _on_directory_selected(path: String):
 
 
 func _on_directory_dialog_canceled():
-	print("Directory selection canceled")
-	
 	# Clean up dialog
 	var dir_dialog = get_tree().root.get_node_or_null("FileDialog")
 	if dir_dialog:

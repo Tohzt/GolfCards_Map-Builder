@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://btfjx3pvjr8kd"]
+[gd_scene load_steps=11 format=3 uid="uid://btfjx3pvjr8kd"]
 
 [ext_resource type="Script" uid="uid://dw1qsds8kficj" path="res://builder.gd" id="1_l5ofj"]
 [ext_resource type="Script" uid="uid://dqoujmrd7aeu2" path="res://grid_display.gd" id="2_clihi"]
@@ -8,6 +8,8 @@
 [ext_resource type="Script" uid="uid://hkayax1qstd4" path="res://upload_map_button.gd" id="4_ucbhk"]
 [ext_resource type="Script" uid="uid://btq4kb6gcpm1a" path="res://upload_path.gd" id="5_gtodl"]
 [ext_resource type="PackedScene" uid="uid://j3ohufpj6nim" path="res://cell_selection.tscn" id="7_3uvuy"]
+[ext_resource type="Script" uid="uid://b6b155wsbxp5e" path="res://copy_map.gd" id="7_u3nas"]
+[ext_resource type="Script" uid="uid://b5koy8b3djas7" path="res://tools.gd" id="8_3l3ge"]
 
 [node name="Builder" type="Node2D"]
 script = ExtResource("1_l5ofj")
@@ -101,10 +103,15 @@ alignment = 1
 layout_mode = 2
 text = "Resize Grid"
 
+[node name="Upload Path" type="Button" parent="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "[Path]"
+script = ExtResource("5_gtodl")
+
 [node name="Upload Map Button" type="Button" parent="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Upload Map"
+text = "Import Map"
 script = ExtResource("4_ucbhk")
 
 [node name="Save Map Button" type="Button" parent="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer"]
@@ -112,22 +119,87 @@ layout_mode = 2
 text = "Save Map"
 script = ExtResource("4_h00wr")
 
-[node name="Upload Path" type="Button" parent="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer"]
+[node name="Copy Map" type="Button" parent="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "[Path]"
-script = ExtResource("5_gtodl")
+text = "Copy Map"
+script = ExtResource("7_u3nas")
 
 [node name="Cell Selection" parent="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer" instance=ExtResource("7_3uvuy")]
 layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+
+[node name="Tools" type="MarginContainer" parent="Camera2D/Options" groups=["Tools"]]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -227.0
+offset_top = -324.0
+offset_bottom = 324.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("8_3l3ge")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Camera2D/Options/Tools"]
+layout_mode = 2
+texture = ExtResource("3_clihi")
+region_rect = Rect2(0, 0, 200, 500)
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="MarginContainer" type="MarginContainer" parent="Camera2D/Options/Tools/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/Options/Tools/NinePatchRect/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Camera2D/Options/Tools/NinePatchRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Toggle Input" type="Button" parent="Camera2D/Options/Tools/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "[ >]"
+
+[node name="Label" type="Label" parent="Camera2D/Options/Tools/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Clear Grid" type="Button" parent="Camera2D/Options/Tools/NinePatchRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Clear Grid"
+
+[node name="Draw Rect" type="Button" parent="Camera2D/Options/Tools/NinePatchRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Draw Rect"
+
+[node name="Draw Brush" type="Button" parent="Camera2D/Options/Tools/NinePatchRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Draw Brush
+"
 
 [node name="Grid Display" type="Node2D" parent="." groups=["Grid Display"]]
 script = ExtResource("2_clihi")
 
 [connection signal="pressed" from="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Toggle Input" to="Camera2D/Options" method="_on_toggle_input_pressed"]
+[connection signal="pressed" from="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/Upload Path" to="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/Upload Path" method="_on_pressed"]
 [connection signal="pressed" from="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/Upload Map Button" to="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/Upload Map Button" method="_on_pressed"]
 [connection signal="pressed" from="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/Save Map Button" to="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/Save Map Button" method="_on_pressed"]
-[connection signal="pressed" from="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/Upload Path" to="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/Upload Path" method="_on_pressed"]
+[connection signal="pressed" from="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/Copy Map" to="Camera2D/Options/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/Copy Map" method="_on_pressed"]
+[connection signal="pressed" from="Camera2D/Options/Tools/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Toggle Input" to="Camera2D/Options/Tools" method="_on_toggle_input_pressed"]
+[connection signal="pressed" from="Camera2D/Options/Tools/NinePatchRect/MarginContainer/VBoxContainer/Clear Grid" to="Camera2D/Options/Tools" method="_on_clear_grid_pressed"]
+[connection signal="pressed" from="Camera2D/Options/Tools/NinePatchRect/MarginContainer/VBoxContainer/Draw Rect" to="Camera2D/Options/Tools" method="_on_draw_rect_pressed"]
+[connection signal="pressed" from="Camera2D/Options/Tools/NinePatchRect/MarginContainer/VBoxContainer/Draw Brush" to="Camera2D/Options/Tools" method="_on_draw_brush_pressed"]

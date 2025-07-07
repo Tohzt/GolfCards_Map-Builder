@@ -7,17 +7,17 @@ func save_grid_to_file():
 	# Get reference to the grid display
 	var grid_display = get_tree().get_first_node_in_group("Grid Display")
 	if not grid_display:
-		print("Could not find grid display")
+		print_debug("Could not find grid display")
 		return
 	
 	# Get reference to the map name input
 	var map_name_input = get_tree().get_first_node_in_group("Map Name")
 	if not map_name_input:
-		print("Could not find map name input")
+		print_debug("Could not find map name input")
 		return
 	
-	# Convert grid to string array (sorted by position)
-	var grid_strings = []
+	# Convert grid to nested array structure (rows)
+	var grid_rows = []
 	var cells = []
 	for child in grid_display.get_children():
 		if child.has_method("get_cell_position"):
@@ -36,18 +36,21 @@ func save_grid_to_file():
 			return pos_a.x < pos_b.x
 	)
 	
-	# Debug: Print the sorted cell positions to verify order
-	print("Saving - Grid dimensions: ", Vector2i(Global.grid_width, Global.grid_height))
-	print("Saving - Sorted cell positions:")
+	# Initialize rows array
+	for y in range(Global.grid_height):
+		grid_rows.append([])
+		for x in range(Global.grid_width):
+			grid_rows[y].append("")  # Initialize with empty string
+	
+	# Fill the rows with cell values
 	for i in range(cells.size()):
 		var pos = cells[i].get_cell_position()
 		var cell_value = cells[i].cell_value
-		var string_value = Global.get_cell_string(cell_value)
-		print("Cell ", i, ": ", pos, " -> ", string_value)
-		grid_strings.append(string_value)
+		var string_value = GlobalClass.get_cell_string(cell_value)
+		grid_rows[pos.y][pos.x] = string_value
 	
-	# Convert to JSON format (similar to your example)
-	var json_string = JSON.stringify(grid_strings)
+	# Convert to JSON format (nested array structure)
+	var json_string = JSON.stringify(grid_rows)
 	
 	# Get save directory from Global
 	var save_directory = Global.get_save_directory()
@@ -67,11 +70,61 @@ func save_grid_to_file():
 	filename += ".txt"
 	var full_path = save_directory.path_join(filename)
 	
+	# Check if file already exists
+	if FileAccess.file_exists(full_path):
+		# Show confirmation dialog
+		show_overwrite_confirmation_dialog(full_path, json_string)
+	else:
+		# Save the file directly
+		save_file_to_path(full_path, json_string)
+
+func show_overwrite_confirmation_dialog(file_path: String, json_string: String):
+	# Create confirmation dialog
+	var dialog = AcceptDialog.new()
+	dialog.title = "File Already Exists"
+	dialog.dialog_text = "A file with this name already exists:\n" + file_path.get_file() + "\n\nDo you want to overwrite it?"
+	dialog.add_button("Cancel", false, "cancel")
+	dialog.add_button("Overwrite", true, "overwrite")
+	
+	# Add to scene tree temporarily
+	get_tree().root.add_child(dialog)
+	
+	# Connect signals
+	dialog.confirmed.connect(_on_overwrite_confirmed.bind(file_path, json_string))
+	dialog.custom_action.connect(_on_dialog_action.bind(file_path, json_string))
+	dialog.canceled.connect(_on_dialog_canceled)
+	
+	# Show dialog
+	dialog.popup_centered()
+
+func _on_overwrite_confirmed(file_path: String, json_string: String):
+	# User clicked "Overwrite" button
+	save_file_to_path(file_path, json_string)
+	cleanup_dialog()
+
+func _on_dialog_action(action: String, file_path: String, json_string: String):
+	if action == "overwrite":
+		save_file_to_path(file_path, json_string)
+	elif action == "cancel":
+		print_debug("Save cancelled by user")
+	cleanup_dialog()
+
+func _on_dialog_canceled():
+	print_debug("Save cancelled by user")
+	cleanup_dialog()
+
+func cleanup_dialog():
+	# Clean up dialog
+	var dialog = get_tree().root.get_node_or_null("AcceptDialog")
+	if dialog:
+		dialog.queue_free()
+
+func save_file_to_path(file_path: String, json_string: String):
 	# Save the file
-	var file = FileAccess.open(full_path, FileAccess.WRITE)
+	var file = FileAccess.open(file_path, FileAccess.WRITE)
 	if file:
 		file.store_string(json_string)
 		file.close()
-		print("Map saved to: ", full_path)
+		print_debug("Map saved to: ", file_path)
 	else:
-		print("Failed to save file to: ", full_path)
+		print_debug("Failed to save file to: ", file_path)

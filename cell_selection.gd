@@ -1,4 +1,5 @@
-extends MarginContainer
+class_name CellSelectionClass extends PanelContainer
+@onready var vbox = $MarginContainer/TextureRect/ScrollContainer/VBoxContainer
 
 signal cell_type_selected(cell_type: int)
 
@@ -10,31 +11,18 @@ func _ready():
 	create_cell_selection_grid()
 
 func create_cell_selection_grid():
-	# Create a VBoxContainer for the cell selection
-	var vbox = VBoxContainer.new()
-	vbox.custom_minimum_size = Vector2(200, 150)
-	add_child(vbox)
-	
-	# Add a label
-	var label = Label.new()
-	label.text = "Cell Types:"
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	vbox.add_child(label)
-	
-	# Create a VBoxContainer for the brush selection cells
-	var brush_container = VBoxContainer.new()
-	brush_container.custom_minimum_size = Vector2(200, 120)
-	brush_container.add_theme_constant_override("separation", 36)  # Set gap to 36
-	vbox.add_child(brush_container)
+	if not vbox: return
 	
 	# Create brush selection cells for each cell type using the Global configuration
-	for cell_info in Global.cell_types:
+	for i in range(Global.cell_types.size()):
+		var cell_info = Global.cell_types[i]
+		
 		# Load the brush selection cell scene
-		var brush_cell_scene = preload("res://Brush Stuff/brush_selection_cell.tscn")
+		var brush_cell_scene = Global.BRUSH_TYPES
 		var brush_cell = brush_cell_scene.instantiate() as BrushSelectionClass
 		
 		# Add the brush cell to the scene tree first
-		brush_container.add_child(brush_cell)
+		vbox.add_child(brush_cell)
 		brush_selection_cells.append(brush_cell)
 		
 		# Connect the cell type selected signal
@@ -49,14 +37,19 @@ func create_cell_selection_grid():
 		selected_cell_type = Global.cell_types[1].value
 		cell_type_selected.emit(selected_cell_type)
 
-func _on_brush_cell_type_selected(cell_type: int):
+func _on_brush_cell_type_selected(cell_type: int):	
+	# Deselect all cells first
+	for brush_cell in brush_selection_cells:
+		brush_cell.set_selected(false)
+	
+	# Find and select the clicked cell
+	for brush_cell in brush_selection_cells:
+		if brush_cell.get_cell_type_value() == cell_type:
+			brush_cell.set_selected(true)
+			break
+	
 	selected_cell_type = cell_type
 	cell_type_selected.emit(selected_cell_type)
-	print("Selected cell type: ", Global.get_cell_string(selected_cell_type))
 
 func get_selected_cell_type() -> int:
 	return selected_cell_type
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass

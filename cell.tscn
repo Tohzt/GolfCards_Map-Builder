@@ -16,9 +16,14 @@ hframes = 2
 frame = 1
 
 [node name="Cell Type" type="Sprite2D" parent="."]
-visible = false
 texture = ExtResource("3_2yjhv")
 hframes = 6
+frame = 5
+
+[node name="Cell Highlight" type="Sprite2D" parent="."]
+texture = ExtResource("2_gwrgs")
+hframes = 2
+frame = 1
 
 [node name="Area2D" type="Area2D" parent="."]
 

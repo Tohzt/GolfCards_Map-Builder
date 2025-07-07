@@ -13,7 +13,7 @@ config_version=5
 config/name="Map Builder"
 run/main_scene="uid://btfjx3pvjr8kd"
 config/features=PackedStringArray("4.4", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="uid://dxg6hmg4awrwr"
 
 [autoload]
 
