@@ -37,13 +37,14 @@ func create_cell_selection_grid():
 		selected_cell_type = Global.cell_types[1].value
 		cell_type_selected.emit(selected_cell_type)
 
-func _on_brush_cell_type_selected(cell_type: int):	
+func _on_brush_cell_type_selected(cell_type: int):
 	# Deselect all cells first
 	for brush_cell in brush_selection_cells:
 		brush_cell.set_selected(false)
 	
 	# Find and select the clicked cell
 	for brush_cell in brush_selection_cells:
+		print("HERE: ", brush_cell.brush_cell_name)
 		if brush_cell.get_cell_type_value() == cell_type:
 			brush_cell.set_selected(true)
 			break

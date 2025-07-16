@@ -40,7 +40,7 @@ func copy_grid_to_clipboard():
 	for i in range(cells.size()):
 		var pos = cells[i].get_cell_position()
 		var cell_value = cells[i].cell_value
-		var string_value = Global.get_cell_string(cell_value)
+		var string_value = GlobalClass.get_cell_string(cell_value)
 		grid_rows[pos.y][pos.x] = string_value
 	
 	# Convert to GDScript array format
