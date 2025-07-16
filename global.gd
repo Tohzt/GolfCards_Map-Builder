@@ -13,12 +13,19 @@ class_name GlobalClass extends Node
 
 @export var cell_types: Array[Dictionary] = [
 	{"name": "Empty", "value": -1, "color": Color.BLACK},
-	{"name": "Base", "value": 0, "color": Color.BLUE},
-	{"name": "G", "value": 1, "color": Color.LIGHT_GREEN},
-	{"name": "R", "value": 2, "color": Color.RED},
-	{"name": "F", "value": 3, "color": Color.FOREST_GREEN},
-	{"name": "S", "value": 4, "color": Color.SANDY_BROWN},
-	{"name": "Tee", "value": 5, "color": Color.WHITE}
+	{"name": "Base",  "value": 0, "color": Color.GREEN},
+	{"name": "G",     "value": 1, "color": Color.LIGHT_GREEN},
+	{"name": "R",     "value": 2, "color": Color.DARK_GREEN},
+	{"name": "F",     "value": 3, "color": Color.WEB_GREEN},
+	{"name": "S",     "value": 4, "color": Color.SANDY_BROWN},
+	{"name": "Tee",   "value": 5, "color": Color.WHITE},
+	{"name": "W",     "value":  0, "color": Color.BLUE},
+	{"name": "SW",    "value":  1, "color": Color.DARK_GRAY},
+	{"name": "U",     "value":  2, "color": Color.WEB_MAROON},
+	{"name": "D",     "value":  3, "color": Color.RED},
+	{"name": "FW",    "value":  4, "color": Color.LIGHT_PINK},
+	{"name": "C",     "value":  5, "color": Color.DIM_GRAY},
+	{"name": "B",     "value":  5, "color": Color.SADDLE_BROWN}
 ]
  
 
